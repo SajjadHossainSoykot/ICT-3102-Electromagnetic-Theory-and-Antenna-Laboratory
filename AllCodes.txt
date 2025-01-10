@@ -1,0 +1,370 @@
+Exp-1: Generation of EM Wave
+Objective:
+To simulate and visualize the generation of electromagnetic waves, demonstrating the perpendicular electric and magnetic fields propagating in space.
+Theory:
+Electromagnetic (EM) waves are a form of energy that travels through space as oscillating electric and magnetic fields. These fields are interconnected and move together in a specific pattern.
+	Nature of EM Waves: EM waves consist of two components:
+	Electric Field (E): A field that represents the electric force in the wave.
+	Magnetic Field (B): A field that represents the magnetic force in the wave.
+	Perpendicular Relationship:
+	The electric field and magnetic field are always at right angles to each other.
+	Both fields are also perpendicular to the direction in which the wave is traveling.
+	Wave Propagation: EM waves do not need a medium to travel; they can move through the vacuum of space. This property makes them unique compared to other types of waves, like sound waves.
+	Speed: In a vacuum, EM waves travel at the speed of light. Their speed can change depending on the medium through which they move.
+	Applications: EM waves are fundamental in technologies like radio communication, microwave transmission, and visible light. They are also critical in scientific studies of the universe and modern wireless systems.
+Algorithm:
+	Define angular frequency \omega, wave number k, and time range t.
+	Create a spatial variable x and initialize the fields.
+	Compute electric field E and magnetic field B as cosine functions.
+	Use patch to plot E and B in perpendicular directions.
+	Add gridlines, labels, and a title for clarity.
+	Set a 3D view angle using the view function.
+	Add a legend to label E and B
+	Run the script to visualize the electromagnetic wave.
+Source Code:
+clear; close all; clc;
+ 
+% Electromagnetic Wave Parameters
+w = 2;                     % Angular frequency
+t = linspace(0, 10, 200);   % Time vector
+c = cos(w * t);     % Wave function
+ 
+% Visualization of Electric and Magnetic Fields
+figure
+% Electric Field (E)
+patch([t fliplr(t)], [c zeros(size(c))], [zeros(size(t)) zeros(size(t))], 'yellow', 'DisplayName', 'Electric Field (E)');
+ 
+hold on;
+ 
+% Magnetic Field (B)
+patch([t fliplr(t)], [zeros(size(t)) zeros(size(t))], [c zeros(size(c))], 'magenta', 'DisplayName', 'Magnetic Field (B)');
+ 
+hold off;
+ 
+% Grid, View, and Legend
+grid on;
+view(45, 45);  % Set the 3D view angle
+title('3D Visualization of Electromagnetic Wave');
+xlabel('Time (t)');
+ylabel('Electric Field (E)');
+zlabel('Magnetic Field (B)');
+ 
+% Add Legend
+legend('show', 'Location', 'best');
+
+
+Output:
+ 
+
+ 
+Exp-2: Propagation of Wave in Rectangular Waveguide 
+Objectives:
+To simulate and visualize the propagation of electromagnetic waves inside a rectangular waveguide, demonstrating the formation of standing wave patterns due to boundary conditions.
+Theory:
+Rectangular Waveguide:
+A waveguide is a structure that guides electromagnetic waves from one point to another. A rectangular waveguide is a hollow metallic tube with a rectangular cross-section.
+Wave Propagation:
+	Inside the waveguide, EM waves are reflected off the walls, leading to the formation of standing wave patterns.
+	Depending on the operating frequency, certain modes of propagation are allowed, including the dominant TE_{10}  mode.
+TE Mode:
+	Transverse Electric (TE): The electric field has no component in the direction of wave propagation.
+	The TE_{10} mode is the most commonly used mode, where the field varies sinusoidally in one direction (e.g., along the width) and remains constant along the height.
+TM Mode:
+	Transverse Magnetic (TM): The magnetic field has no component in the direction of wave propagation.
+	The TM_{mn} mode is characterized by two mode indices m and n, representing the number of half-wavelength variations in the x- and y-directions, respectively.
+	The TM_{11} mode is the most commonly used mode, where the electric field varies sinusoidally in both the width and height directions, while the magnetic field remains constant in the y-direction and varies along the x-direction.
+Applications:
+Rectangular waveguides are widely used in microwave and RF technologies, including radar systems, communication links, and satellite systems.
+
+Algorithm:
+	Set the width (a) and height (b) of the waveguide, and define the frequency (f) and wavelength (\lambda). 
+	Create spatial grids for x (width), y (height), and z (depth) using linspace. 
+	Generate a 3D grid with meshgrid combining x,\ y,\ and\ z. 
+	For TE Mode \left(TE_{10}\right), calculate the electric field E based on the sinusoidal variations in the x-direction. 
+	For TM Mode \left(TM_{11}\right), compute the electric field E with variations in both x- and y-directions. 
+	Visualize the electric fields for both modes using surf for 3D plots. 
+	Add labels, a color bar, and titles for clarity. 
+	Run the script to observe wave propagation patterns for both modes.
+Source Code:
+%waveguide
+% Constants and dimensions
+a = 0.02286; % Width of the waveguide (in meters)
+b = 0.01016; % Height of the waveguide (in meters)
+f = 10e9; % Frequency (10 GHz)
+c = 3e8; % Speed of light (in meters per second)
+lambda = c / f; % Wavelength (in meters)
+ 
+% Spatial grid
+x = linspace(0, a, 100); % Grid along the width
+y = linspace(0, b, 50); % Grid along the height
+z = linspace(0, lambda/2, 25); % Grid along the depth (half-wavelength)
+ 
+% Create a 3D grid
+[x_grid, y_grid, z_grid] = meshgrid(x, y, z); 
+ 
+% Correct TE10 Mode Electric Field
+kx = pi / a; 
+ky = pi / b; 
+kz = 2 * pi * f / c;
+E_TE10 = cos(kx * x_grid) .* sin(ky * y_grid) .* cos(kz * z_grid);
+ 
+% TM11 Mode
+E_TM11 = sin(kx * x_grid) .* cos(ky * y_grid) .* cos(kz * z_grid);
+ 
+% Visualization
+figure;
+ 
+% TE10 Mode Visualization
+subplot(2, 1, 1);
+surf(x_grid(:, :, 1), y_grid(:, :, 1), abs(E_TE10(:, :, 1))); % x-z plane
+title('Electric Field (TE10 Mode)');
+xlabel('Width (m)');
+ylabel('Depth (m)');
+zlabel('Electric Field (E)');
+colormap('jet');
+colorbar;
+ 
+% TM11 Mode Visualization
+subplot(2, 1, 2);
+surf(x_grid(:, :, 1), y_grid(:, :, 1), abs(E_TM11(:, :, 1))); % x-y plane
+title('Electric Field (TM11 Mode)');
+xlabel('Width (m)');
+ylabel('Height (m)');
+zlabel('Electric Field (E)');
+colormap('jet');
+colorbar;
+
+
+Output:
+ 
+
+ 
+Exp-3: Impedance Matching using Smith Chart
+Objectives:
+To demonstrate the use of the Smith Chart for impedance matching in transmission lines, showing how to visualize and match impedance between a load and a source.
+Theory:
+Impedance matching is a technique used to minimize the reflection of electromagnetic waves at the interface between two media (e.g., between a transmission line and an antenna). The Smith Chart is a graphical tool used to solve problems related to transmission lines, including impedance matching, reflection coefficients, and standing wave ratios.
+	The impedance of a transmission line is typically complex and consists of a real part (resistance) and an imaginary part (reactance).
+	The Smith Chart plots normalized impedance values on a complex plane. It helps visualize the effects of load impedance and determine the required matching network.
+	By using the Smith Chart, the impedance of the load can be transformed, and matching networks like capacitors or inductors can be chosen to achieve impedance matching.
+Algorithm:
+	Define the characteristic impedance Z_0 of the transmission line.
+	Set the load impedance Z_L, which may be complex.
+	Normalize the load impedance using Z_L/Z_0.
+	Plot the normalized impedance on the Smith Chart using MATLAB’s smithplot function.
+	Determine the reflection coefficient using the normalized impedance.
+	Adjust the load impedance or add a matching network (like series or parallel inductance or capacitance) as required.
+	Run the script to visualize the impedance matching and reflection coefficients on the Smith Chart.
+Source Code:
+% Define antenna impedance (ZL) and RF circuitry impedance (Z0)
+ZL = complex(25, 20);   % Example: Antenna impedance (Real part = 25 ohms, Imaginary part = 20 ohms)
+Z0 = 50;                % RF circuitry impedance (50 ohms)
+
+% Calculate reflection coefficient (Gamma)
+gamma = (ZL - Z0) / (ZL + Z0);
+
+% Plot impedance on the Smith chart
+smithchart(gamma);
+
+% Calculate the matched antenna impedance (ZL_matched)
+ZL_matched = Z0 * (1 + gamma) / (1 - gamma);
+
+% Display results
+fprintf('Antenna impedance (ZL): %.2f + %.2fj ohms\n', real(ZL), imag(ZL));
+fprintf('RF circuit impedance (Z0): %d ohms\n', Z0);
+fprintf('Reflection coefficient (Gamma): %.4f + %.4fj\n', real(gamma), imag(gamma));
+fprintf('Matched antenna impedance (ZL_matched): %.2f + %.2fj ohms\n', real(ZL_matched), imag(ZL_matched));
+
+Output:
+Original Antenna Impedance (ZL): 25.00 + 20.00j ohms
+RF Circuitry Impedance (ZO): 50 ohms
+Reflection Coefficient (Gamma): -0.2448 + 0.3320j
+Matched Antenna Impedance (ZL_matched): 25.00 + 20.00j ohms
+
+ 
+
+Exp-4: Calculation of Phase and Group Velocity Calculation at 9 GHz
+Objectives:
+To calculate the phase velocity and group velocity at a frequency of 9 GHz in a waveguide.
+Theory:
+Phase Velocity (\mathbit{v}_{\mathbit{phase}}): It is the speed at which the phase of the wave propagates. The formula is:
+v_{phase}=\frac{\omega}{\beta}
+where:
+	\omega\ =\ 2\pi f is the angular frequency,
+	\beta=2\pi/\lambda_g is the propagation constant, and
+	\lambda_g is the group wavelength.
+
+Group Velocity (\mathbit{v}_{\mathbit{group}}): It is the speed at which the energy or the envelope of the wave propagates. The formula is:
+v_{group}=\frac{c^2}{v_{phase}}
+where c is the speed of light in the medium.
+Wavelength (\mathbit{\lambda}_\mathbf{0}): The wavelength in free space is given by:
+\lambda_0=\frac{c}{f}
+Where, f is the frequency.
+Algorithm:
+	Define the frequency f and waveguide dimensions a and b
+	Calculate the wavelength in free space using the speed of light and frequency.
+	Calculate the cutoff wavelength using the waveguide's dimensions and mode numbers.
+	Compute the group wavelength using the free-space and cutoff wavelengths.
+	Calculate the phase velocity using the angular frequency and propagation constant.
+	Calculate the group velocity using the phase velocity.
+Source Code:
+clear; close all; clc;
+% Define constants
+f = 9e9;  % Frequency in Hz
+c = 3e10; % Speed of light in cm/s
+m = 1;    % TE mode m index
+n = 0;    % TE mode n index
+a = 2;    % Width of waveguide in cm
+b = 1;    % Height of waveguide in cm
+
+% Calculate wavelengths
+lambda0 = c / f; % Free-space wavelength
+lambda_c = 2 / sqrt((m / a)^2 + (n / b)^2); % Cutoff wavelength
+lambda_g = lambda0 / sqrt(1 - (lambda0 / lambda_c)^2); % Guide wavelength
+
+% Calculate phase and group velocities
+v_phase = f * lambda_g; % Phase velocity
+v_group = c^2 / v_phase; % Group velocity
+
+% Display results
+fprintf('Wavelength: %.2f cm\n', lambda0);
+fprintf('Phase Velocity: %.2e cm/s\n', v_phase);
+fprintf('Group Velocity: %.2e cm/s\n', v_group);
+
+Output:
+Wavelength: 3.3333 cm
+Phase Velocity: 54272042023.9975 cm/s
+Group Velocity: 16583123951.777 cm/s
+Exp-5: Plot of Radiation Pattern of Dipole Antenna
+Objectives:
+To plot the radiation pattern of a dipole antenna, which shows how the antenna radiates energy in different directions.
+Theory:
+A dipole antenna is a simple antenna made up of two conductors, typically fed at the center. The radiation pattern of a dipole antenna describes how the power is radiated in different directions from the antenna. The electric field strength is maximum in the direction perpendicular to the antenna and decreases in all other directions. A typical dipole radiation pattern is figure-eight shaped, with the null points along the axis of the antenna.
+Algorithm:
+	Define the frequency of operation and wavelength.
+	Calculate the wave number based on the wavelength.
+	Define the angle (\theta) representing the angle of radiation from the antenna.
+	Compute the electric field strength for a dipole antenna using a sinusoidal function.
+	Plot the radiation pattern using polar coordinates to represent the strength in different directions.
+	Customize the plot with labels and a title.
+Source Code:
+clc; clear; close all;
+% Input parameters
+lambda = input('Enter the value of wavelength (?) in meters: '); % Wavelength
+l = input('Enter the dipole length (l) in meters: '); % Dipole length
+ 
+% Ratio of dipole length to wavelength
+ratio = l / lambda;
+ 
+% Wave number and angle range
+B = 2 * pi / lambda; % Wave number
+theta = linspace(0, 2 * pi, 360); % Angle range in radians
+ 
+% Calculate radiation pattern
+if ratio <= 0.1
+    % Short Dipole
+    E = sin(theta); % Electric field for short dipole
+else
+    % Regular Dipole
+    E = (cos(B * l / 2 .* cos(theta)) - cos(B * l / 2)) ./ sin(theta); % Electric field for regular dipole
+end
+ 
+% Normalize and take absolute value for proper visualization
+E = abs(E) / max(abs(E));
+ 
+% Plot radiation pattern
+figure;
+polarplot(theta, E, 'LineWidth', 2, 'Color', 'blue');
+title(sprintf('Radiation Pattern of Dipole Antenna (? = %.2f m, l = %.2f m)', lambda, l));
+grid on;
+Output:
+Enter the value of wavelength (λ) in meters: >> 1
+Enter the dipole length (l) in meters: .5
+ 
+
+ 
+Exp-6: Plot of Radiation Pattern of Monopole Antenna
+Objectives:
+To plot the radiation pattern of a monopole antenna, considering whether the monopole is short or not. The length of the monopole is compared to the wavelength to determine the radiation pattern.
+Theory:
+A monopole antenna is half of a dipole antenna, typically mounted above a ground plane. When the length of the monopole is small relative to the wavelength (i.e., it is a short monopole), the radiation pattern behaves differently compared to a monopole with a length comparable to the wavelength. Short monopole antennas generally exhibit a simple sinusoidal radiation pattern. In contrast, monopoles that are not "short" exhibit more complex radiation patterns with multiple lobes. This program will compute and plot both cases.
+Algorithm:
+	Define the wavelength (λ) and the monopole antenna length (l)
+	Calculate the ratio of the antenna length to the wavelength \left(l/\lambda\right)
+	Check if the antenna is short (when the ratio \frac{1}{\lambda}\ \le0.1)
+	Compute the electric field for the radiation pattern:
+	For short monopoles: Use a simple sinusoidal function.
+	For longer monopoles: Use a more complex formula involving cosine functions.
+	Plot the radiation pattern for both cases, showing the polar plot for each pattern.
+	Display the results, including the values for \lambda and l
+
+Source Code:
+clc; clear; close all;
+
+% Input parameters
+lambda = input('Enter the value of wavelength (?) in meters: ');% Wavelength eg 10
+l = input('Enter the monopole length (l) in meters: '); % Monopole length eg 4
+
+% Ratio of monopole length to wavelength
+ratio = l / lambda;
+% Wave number and angle range
+B = 2 * pi / lambda; % Wave number
+theta = -pi/2:pi/100:pi/2; % Angle range for monopole (0 to pi, upper hemisphere)
+
+% Calculate radiation pattern
+if ratio <= 0.1
+    % Short Monopole
+    E = sin(theta); % Electric field for short monopole
+else
+    % Regular Monopole
+    E =(cos(B*l/2.* cos(theta))-cos(B *l/2)); %Electric field for regular monopole
+end
+
+% Normalize and take absolute value for proper visualization
+E = abs(E) / max(abs(E));
+
+% Plot radiation pattern
+figure;
+polarplot(theta, E, 'LineWidth', 2, 'Color', 'blue');
+title(sprintf('Radiation Pattern of Monopole Antenna (? = %.2f m, l = %.2f m)', lambda, l));
+grid on;
+
+
+Output:
+Enter the value of wavelength (?) in meters: 10
+Enter the monopole length (l) in meters: 4 
+
+ 
+Exp-7: Plot of Radiation Pattern of Uniform Linear Array 
+Objectives:
+	To plot the radiation pattern of a uniform linear array (ULA) antenna.
+	To understand how the arrangement of antenna elements affects the radiation pattern
+Theory:
+A Uniform Linear Array (ULA) consists of multiple antenna elements arranged in a straight line with equal spacing between them. The radiation pattern of a ULA depends on the number of elements, the spacing between them, and the frequency of operation. The pattern is usually characterized by a main lobe and side lobes, where the main lobe represents the direction of maximum radiation.
+For a ULA, the radiation pattern can be calculated using the superposition of the individual radiation patterns of the antenna elements, considering their phase shifts due to the array geometry.
+Algorithm:
+	Define the number of elements in the ULA and the wavelength of the signal.
+	Calculate the spacing between the elements.
+	Define the range of angles for plotting the radiation pattern.
+	Compute the array factor, which depends on the number of elements, spacing, and the angle of radiation.
+	Plot the radiation pattern using the array factor.
+Source Code:
+clc; clear; close all;
+ 
+% Define parameters
+N = 10; % Number of elements in the array
+lambda = 1; % Wavelength (in arbitrary units)
+d = lambda / 2; % Element spacing (half wavelength)
+theta = linspace(-pi, pi, 360); % Angle range from -pi to pi
+ 
+% Calculate array factor
+AF = abs(sin(N*pi*d/lambda*cos(theta))./sin(pi*d/lambda* cos(theta)));
+ 
+% Plot radiation pattern
+figure;
+polarplot(theta, AF, 'LineWidth', 2);
+title('Radiation Pattern of Uniform Linear Array');
+grid on;
+ 
+
+ 
