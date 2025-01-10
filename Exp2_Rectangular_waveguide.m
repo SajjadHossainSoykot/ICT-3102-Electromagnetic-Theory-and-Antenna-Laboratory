@@ -1,5 +1,4 @@
 %waveguide
- 
 % Constants and dimensions
 a = 0.02286; % Width of the waveguide (in meters)
 b = 0.01016; % Height of the waveguide (in meters)
