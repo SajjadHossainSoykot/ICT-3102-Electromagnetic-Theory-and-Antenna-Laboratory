@@ -8,14 +8,12 @@ c = cos(w * t - k * x);     % Wave function
 % Visualization of Electric and Magnetic Fields
 figure
 % Electric Field (E)
-patch([t fliplr(t)], [c zeros(size(c))], [zeros(size(t)) zeros(size(t))], ...
-      'yellow', 'DisplayName', 'Electric Field (E)');
+patch([t fliplr(t)], [c zeros(size(c))], [zeros(size(t)) zeros(size(t))], 'yellow', 'DisplayName', 'Electric Field (E)');
 
 hold on;
 
 % Magnetic Field (B)
-patch([t fliplr(t)], [zeros(size(t)) zeros(size(t))], [c zeros(size(c))], ...
-      'magenta', 'DisplayName', 'Magnetic Field (B)');
+patch([t fliplr(t)], [zeros(size(t)) zeros(size(t))], [c zeros(size(c))], 'magenta', 'DisplayName', 'Magnetic Field (B)');
 
 hold off;
 
