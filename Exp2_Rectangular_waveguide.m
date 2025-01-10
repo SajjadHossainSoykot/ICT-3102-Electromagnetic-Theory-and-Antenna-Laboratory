@@ -15,31 +15,34 @@ z = linspace(0, lambda/2, 25); % Grid along the depth (half-wavelength)
 % Create a 3D grid
 [x_grid, y_grid, z_grid] = meshgrid(x, y, z); 
  
-% TE Mode (TE10)
-kx_TE10 = pi / a; 
-E_TE10 = cos(kx_TE10 * x_grid) .* sin(pi * y_grid / b) .* cos(2 * pi * f * z_grid / c); 
- 
-% TM Mode (TM11)
-kx_TM11 = pi / a; 
-ky_TM11 = pi / b; 
-E_TM11 = sin(kx_TM11 * x_grid) .* cos(ky_TM11 * y_grid) .* cos(2 * pi * f * z_grid / c); 
- 
+% Correct TE10 Mode Electric Field
+kx = pi / a; 
+ky = pi / b; 
+kz = 2 * pi * f / c;
+E_TE10 = cos(kx * x_grid) .* sin(ky * y_grid) .* cos(kz * z_grid);
+
+% TM11 Mode
+E_TM11 = sin(kx * x_grid) .* cos(ky * y_grid) .* cos(kz * z_grid);
+
 % Visualization
-figure; 
-subplot(2, 1, 1); 
-surf(x_grid(:,:,1), y_grid(:,:,1), abs(E_TE10(:,:,1))); 
-title('Electric Field (TE Mode)');
+figure;
+
+% TE10 Mode Visualization
+subplot(2, 1, 1);
+surf(x_grid(:, :, 1), y_grid(:, :, 1), abs(E_TE10(:, :, 1))); % x-z plane
+title('Electric Field (TE10 Mode)');
+xlabel('Width (m)');
+ylabel('Depth (m)');
+zlabel('Electric Field (E)');
+colormap('jet');
+colorbar;
+
+% TM11 Mode Visualization
+subplot(2, 1, 2);
+surf(x_grid(:, :, 1), y_grid(:, :, 1), abs(E_TM11(:, :, 1))); % x-y plane
+title('Electric Field (TM11 Mode)');
 xlabel('Width (m)');
 ylabel('Height (m)');
 zlabel('Electric Field (E)');
 colormap('jet');
-colorbar; 
- 
-subplot(2, 1, 2); 
-surf(x_grid(:,:,1), y_grid(:,:,1), abs(E_TM11(:,:,1))); 
-title('Electric Field (TM Mode)');
-xlabel('Width (m)');
-ylabel('Height (m)');
-zlabel('Electric Field (E)');
-colormap('jet');
-colorbar; 
+colorbar;
