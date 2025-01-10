@@ -4,7 +4,7 @@ clear;
 close all;
 
 % Define parameters
-lambda = 1; % Wavelength (normalized)
+lambda = 1.5; % Wavelength (normalized)
 L = lambda / 2; % Length of dipole (half-wave)
 k = 2 * pi / lambda; % Wave number
 theta = linspace(0, 2 * pi, 360); % Angular range (0 to 360 degrees)
